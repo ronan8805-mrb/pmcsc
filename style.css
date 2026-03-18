@@ -15,12 +15,16 @@
     box-sizing: border-box;
 }
 
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
 body {
     background: var(--bg-dark);
     font-family: 'Inter', sans-serif;
     color: var(--text-white);
     line-height: 1.6;
-    overflow-x: hidden;
 }
 
 h1, h2, h3, h4, .logo-text {
@@ -506,14 +510,56 @@ h1, h2, h3, h4, .logo-text {
 
 /* Mobile Responsive */
 @media (max-width: 968px) {
-    .navbar { padding: 20px 30px; }
-    .hero { padding: 100px 30px; text-align: center; }
-    .hero-content { margin: 0 auto; }
-    .hero h1 { font-size: 3.5rem; }
-    .hero-logo { height: 90px; }
+    .navbar { padding: 15px 20px; }
+    .hero { 
+        height: auto; 
+        min-height: 500px; 
+        padding: 120px 20px 60px; 
+        text-align: center; 
+    }
+    .hero-content { margin: 0 auto; width: 100%; }
+    .hero h1 { font-size: 2.8rem; }
+    .hero-subtitle { font-size: 1rem; }
+    .hero-logo { height: 70px; }
     .location-wrapper { grid-template-columns: 1fr; }
     .nav-links { display: none; }
     .requirements { flex-direction: column; gap: 20px; }
+    
+    .admin-table-panel { 
+        padding: 20px; 
+        overflow-x: auto; 
+    }
+    .admin-table { 
+        min-width: 600px; 
+    }
+    
+    .stats-grid { 
+        grid-template-columns: 1fr; 
+        gap: 15px;
+    }
+    
+    .dashboard-main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-card {
+        padding: 40px 20px;
+        border-radius: 25px;
+    }
+
+    .dashboard-content {
+        padding: 30px 20px;
+    }
+
+    .sidebar {
+        display: none; /* In a real app we'd add a toggle, for now we simplify for mobile */
+    }
+
+    .content-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
 }
 
 /* Legal Footer Styles */
