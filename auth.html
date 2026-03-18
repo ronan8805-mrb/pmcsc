@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Portal | Purple Mouse CSC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-card reveal active">
+            <div class="auth-header">
+                <img src="logo.png" alt="Purple Mouse CSC" class="auth-logo">
+                <h2 id="auth-title">Member Login</h2>
+                <p id="auth-subtitle">Welcome back to the collective.</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="login-email" required placeholder="name@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="login-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-primary-large w-100">Access Lounge</button>
+                <p class="auth-switch">Not a member? <a href="#" onclick="toggleAuth('signup')">Apply Now</a></p>
+                <p class="auth-switch admin-link"><a href="#" onclick="toggleAuth('admin')">Staff Login</a></p>
+            </form>
+
+            <!-- Signup Form -->
+            <form id="signup-form" class="auth-form hidden">
+                <div class="form-step active" id="step-1">
+                    <h3>Personal Details</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="signup-name" required placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="signup-email" required placeholder="john@example.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="signup-password" required placeholder="••••••••">
+                    </div>
+                    <button type="button" class="btn-primary w-100" onclick="nextStep(2)">Next: Habits & Health</button>
+                </div>
+
+                <div class="form-step" id="step-2">
+                    <h3>Consumption Habits</h3>
+                    <div class="form-group">
+                        <label>Smoking Habits / Frequency</label>
+                        <select id="habit-frequency">
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="occasional">Occasional</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Favourite Strains / Preferences</label>
+                        <textarea id="fav-strains" placeholder="e.g. Sativa dominant, fruity terps..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Allergies / Health Concerns</label>
+                        <textarea id="allergies" placeholder="Anything the club should be aware of?"></textarea>
+                    </div>
+                    <div class="disclaimer-box">
+                        <i data-lucide="alert-triangle"></i>
+                        <p><strong>Strict ID Requirement:</strong> You MUST present a valid Passport or Government ID upon your first visit. No ID, No Entry. No exceptions.</p>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">I am 21+ and agree to the club rules.</label>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn-secondary" onclick="nextStep(1)">Back</button>
+                        <button type="submit" class="btn-primary-large">Submit Application</button>
+                    </div>
+                </div>
+                <p class="auth-switch">Existing member? <a href="#" onclick="toggleAuth('login')">Login</a></p>
+            </form>
+
+            <!-- Admin Login -->
+            <form id="admin-form" class="auth-form hidden">
+                <div class="form-group">
+                    <label>Admin Username</label>
+                    <input type="text" id="admin-user" required placeholder="admin">
+                </div>
+                <div class="form-group">
+                    <label>Admin Password</label>
+                    <input type="password" id="admin-pass" required placeholder="admin">
+                </div>
+                <button type="submit" class="btn-primary-large w-100">System Access</button>
+                <p class="auth-switch"><a href="#" onclick="toggleAuth('login')">Back to Member Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function toggleAuth(type) {
+            const login = document.getElementById('login-form');
+            const signup = document.getElementById('signup-form');
+            const admin = document.getElementById('admin-form');
+            const title = document.getElementById('auth-title');
+            const subtitle = document.getElementById('auth-subtitle');
+
+            login.classList.add('hidden');
+            signup.classList.add('hidden');
+            admin.classList.add('hidden');
+
+            if (type === 'login') {
+                login.classList.remove('hidden');
+                title.innerText = "Member Login";
+                subtitle.innerText = "Welcome back to the collective.";
+            } else if (type === 'signup') {
+                signup.classList.remove('hidden');
+                title.innerText = "Apply for Membership";
+                subtitle.innerText = "Join our private social collective.";
+            } else if (type === 'admin') {
+                admin.classList.remove('hidden');
+                title.innerText = "Staff Access";
+                subtitle.innerText = "Administrative management portal.";
+            }
+        }
+
+        function nextStep(step) {
+            document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`step-${step}`).classList.add('active');
+        }
+
+        // Handle Redirects (Simulated Logic)
+        document.getElementById('login-form').onsubmit = (e) => {
+            e.preventDefault();
+            window.location.href = 'dashboard.html';
+        };
+
+        document.getElementById('admin-form').onsubmit = (e) => {
+            e.preventDefault();
+            const user = document.getElementById('admin-user').value;
+            const pass = document.getElementById('admin-pass').value;
+            if (user === 'admin' && pass === 'admin') {
+                window.location.href = 'admin.html';
+            } else {
+                alert('Invalid Admin Credentials');
+            }
+        };
+
+        document.getElementById('signup-form').onsubmit = (e) => {
+            e.preventDefault();
+            alert('Application submitted! We will review your details soon.');
+            window.location.href = 'index.html';
+        };
+    </script>
+</body>
+</html>

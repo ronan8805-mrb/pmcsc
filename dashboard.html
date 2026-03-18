@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Dashboard | Purple Mouse CSC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="dashboard-page">
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <span class="logo-text">PURPLE <span>MOUSE</span></span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" onclick="showSection('overview')"><i data-lucide="layout-dashboard"></i> Overview</a>
+            <a href="#" class="nav-item" onclick="showSection('offers')"><i data-lucide="tag"></i> Exclusive Offers</a>
+            <a href="#" class="nav-item" onclick="showSection('news')"><i data-lucide="newspaper"></i> Club News</a>
+            <a href="#" class="nav-item" onclick="showSection('profile')"><i data-lucide="settings"></i> My Profile</a>
+            <a href="#" class="logout" onclick="confirmLogout()"><i data-lucide="log-out"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <main class="dashboard-content">
+        <header class="content-header">
+            <div>
+                <h1>Welcome Back, <span>Member</span></h1>
+                <p>Track your contributions and explore club benefits.</p>
+            </div>
+            <div class="user-pill">
+                <div class="avatar">JD</div>
+                <span>Member ID: PM-420</span>
+            </div>
+        </header>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <i data-lucide="database"></i>
+                <div class="stat-info">
+                    <span class="stat-label">Total Received</span>
+                    <h3 class="stat-value">28.5g</h3>
+                    <span class="stat-sub">Past 30 Days</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i data-lucide="clock"></i>
+                <div class="stat-info">
+                    <span class="stat-label">Credits Remaining</span>
+                    <h3 class="stat-value">€145.00</h3>
+                </div>
+            </div>
+            <div class="stat-card gold">
+                <i data-lucide="star"></i>
+                <div class="stat-info">
+                    <span class="stat-label">Member Points</span>
+                    <h3 class="stat-value">1,240</h3>
+                </div>
+            </div>
+        </section>
+
+        <div class="dashboard-main-grid">
+            <!-- News Section -->
+            <div class="news-panel">
+                <div class="panel-header">
+                    <h2>Latest News</h2>
+                    <a href="#">See All</a>
+                </div>
+                <div class="news-list">
+                    <div class="news-item">
+                        <div class="news-date">MAR 20</div>
+                        <div class="news-desc">
+                            <h4>Special Terpene Workshop</h4>
+                            <p>Join us next Thursday for an exploration of flower flavor profiles.</p>
+                        </div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-date">MAR 18</div>
+                        <div class="news-desc">
+                            <h4>New 4K Screen Installed</h4>
+                            <p>Private lounge upgrade complete. Perfect for match days.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Offers Section -->
+            <div class="offers-panel">
+                <div class="panel-header">
+                    <h2>Weekly Offers</h2>
+                </div>
+                <div class="offer-card-small">
+                    <div class="offer-info">
+                        <h4>Indica Special</h4>
+                        <p>Receive 10% extra credit this weekend.</p>
+                    </div>
+                    <button class="btn-primary-xs" onclick="claimOffer('Indica Special')">Claim</button>
+                </div>
+                <div class="offer-card-small">
+                    <div class="offer-info">
+                        <h4>Loyalty Bonus</h4>
+                        <p>A gift for members over 1 year.</p>
+                    </div>
+                    <button class="btn-primary-xs" onclick="claimOffer('Loyalty Bonus')">Claim</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        function showSection(name) {
+            alert(`Navigating to ${name} section... (Simulated)`);
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+
+        function claimOffer(name) {
+            const btn = event.currentTarget;
+            btn.innerText = "Claimed!";
+            btn.disabled = true;
+            btn.style.opacity = "0.5";
+            alert(`Success! "${name}" has been added to your account.`);
+        }
+
+        function confirmLogout() {
+            if (confirm("Are you sure you want to log out of the lounge?")) {
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>

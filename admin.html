@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Purple Mouse CSC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="admin-page">
+    <aside class="sidebar admin-sidebar">
+        <div class="sidebar-brand">
+            <span class="logo-text">ADMIN <span>PORTAL</span></span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" onclick="showPanel('overview')" class="nav-item active" id="nav-overview"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+            <a href="#" onclick="showPanel('members')" class="nav-item" id="nav-members"><i data-lucide="users"></i> Manage Members</a>
+            <a href="#" onclick="showPanel('strains')" class="nav-item" id="nav-strains"><i data-lucide="leaf"></i> Strains & Products</a>
+            <a href="#" onclick="showPanel('deliveries')" class="nav-item" id="nav-deliveries"><i data-lucide="truck"></i> Deliveries</a>
+            <a href="#" onclick="showPanel('news')" class="nav-item" id="nav-news"><i data-lucide="megaphone"></i> News & Announcements</a>
+            <a href="index.html" class="logout"><i data-lucide="log-out"></i> System Exit</a>
+        </nav>
+    </aside>
+
+    <main class="dashboard-content">
+        <!-- Overview Panel -->
+        <div id="panel-overview" class="admin-panel active">
+            <header class="content-header">
+                <div>
+                    <h1>System <span>Overview</span></h1>
+                    <p>Welcome back, Admin. System status is optimal.</p>
+                </div>
+                <div class="server-status">
+                    <span class="status-indicator"></span>
+                    <span>Server Online</span>
+                </div>
+            </header>
+
+            <section class="admin-stats stats-grid">
+                <div class="stat-card">
+                    <i data-lucide="user-plus"></i>
+                    <div class="stat-info">
+                        <span class="stat-label">Active Members</span>
+                        <h3 class="stat-value">1,452</h3>
+                        <span class="stat-sub">+12 Today</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i data-lucide="package"></i>
+                    <div class="stat-info">
+                        <span class="stat-label">Stock Value</span>
+                        <h3 class="stat-value">€12,840</h3>
+                        <span class="stat-sub">Across 42 Items</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i data-lucide="trending-up"></i>
+                    <div class="stat-info">
+                        <span class="stat-label">Daily Receipt Total</span>
+                        <h3 class="stat-value">€2,410</h3>
+                        <span class="stat-sub">Last sync: 2 min ago</span>
+                    </div>
+                </div>
+            </section>
+
+            <div class="admin-table-panel">
+                <div class="panel-header">
+                    <h2>Recent Member Activity</h2>
+                    <div class="action-buttons">
+                        <button class="btn-primary-xs" onclick="openModal('member-modal')"><i data-lucide="plus"></i> Add Member</button>
+                        <button class="btn-secondary-xs" onclick="exportData('activity')">Export CSV</button>
+                    </div>
+                </div>
+                <!-- ... table moved to script for easier management or kept here ... -->
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Member Name</th>
+                            <th>ID</th>
+                            <th>Strain Received</th>
+                            <th>Quantity</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="activity-table-body">
+                        <!-- Dynamic Rows -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Members Panel -->
+        <div id="panel-members" class="admin-panel hidden">
+            <header class="content-header">
+                <h1>Member <span>Management</span></h1>
+                <button class="btn-primary" onclick="openModal('member-modal')">Register New Member</button>
+            </header>
+            <div class="admin-table-panel">
+                 <input type="text" placeholder="Search members..." class="admin-search" onkeyup="filterTable(this, 'member-list-body')">
+                 <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Plan</th>
+                            <th>Join Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="member-list-body">
+                        <!-- Dynamic Content -->
+                    </tbody>
+                 </table>
+            </div>
+        </div>
+
+        <!-- Strains Panel -->
+        <div id="panel-strains" class="admin-panel hidden">
+            <header class="content-header">
+                <h1>Strain <span>Inventory</span></h1>
+                <button class="btn-primary" onclick="openModal('strain-modal')">Add Product</button>
+            </header>
+            <div class="inventory-grid" id="inventory-grid">
+                <!-- Dynamic Content -->
+            </div>
+        </div>
+
+        <!-- Deliveries Panel -->
+        <div id="panel-deliveries" class="admin-panel hidden">
+            <header class="content-header">
+                <h1>Active <span>Deliveries</span></h1>
+                <button class="btn-primary" onclick="openModal('delivery-modal')">Schedule Delivery</button>
+            </header>
+            <div class="admin-table-panel">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Manifest ID</th>
+                            <th>Origin</th>
+                            <th>ETA</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="delivery-table-body">
+                        <!-- Dynamic Content -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- News Panel -->
+        <div id="panel-news" class="admin-panel hidden">
+            <header class="content-header">
+                <h1>Club <span>News</span></h1>
+                <button class="btn-primary" onclick="openModal('news-modal')">Create Announcement</button>
+            </header>
+            <div class="news-list-admin" id="news-admin-list">
+                <!-- Dynamic Content -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <div id="member-modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <h2>Add New Member</h2>
+            <form onsubmit="handleForm(event, 'member')">
+                <div class="form-group"><label>Full Name</label><input type="text" id="member-name" required></div>
+                <div class="form-group"><label>Email</label><input type="email" id="member-email" required></div>
+                <div class="btn-group">
+                    <button type="button" class="btn-secondary" onclick="closeModal('member-modal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Member</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="strain-modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <h2>Add New Strain/Product</h2>
+            <form onsubmit="handleForm(event, 'strain')">
+                <div class="form-group"><label>Product Name</label><input type="text" id="strain-name" required></div>
+                <div class="form-group"><label>Category</label>
+                    <select id="strain-cat">
+                        <option value="indica">Indica</option>
+                        <option value="sativa">Sativa</option>
+                        <option value="hybrid">Hybrid</option>
+                        <option value="extract">Extract</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Stock Level (g)</label><input type="number" id="strain-stock" required></div>
+                <div class="btn-group">
+                    <button type="button" class="btn-secondary" onclick="closeModal('strain-modal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Add to Inventory</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="delivery-modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <h2>Schedule New Delivery</h2>
+            <form onsubmit="handleForm(event, 'delivery')">
+                <div class="form-group"><label>Manifest ID</label><input type="text" id="del-id" required placeholder="DEL-XXXX"></div>
+                <div class="form-group"><label>Origin</label><input type="text" id="del-origin" required></div>
+                <div class="form-group"><label>Expected Arrival</label><input type="datetime-local" id="del-eta" required></div>
+                <div class="btn-group">
+                    <button type="button" class="btn-secondary" onclick="closeModal('delivery-modal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Schedule</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="news-modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <h2>Create Club Announcement</h2>
+            <form onsubmit="handleForm(event, 'news')">
+                <div class="form-group"><label>Headline</label><input type="text" id="news-title" required></div>
+                <div class="form-group"><label>Content</label><textarea id="news-content" required></textarea></div>
+                <div class="btn-group">
+                    <button type="button" class="btn-secondary" onclick="closeModal('news-modal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Publish News</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Panel System
+        function showPanel(panelId) {
+            document.querySelectorAll('.admin-panel').forEach(p => {
+                p.classList.add('hidden');
+                p.classList.remove('active');
+            });
+            document.getElementById(`panel-${panelId}`).classList.remove('hidden');
+            document.getElementById(`panel-${panelId}`).classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            document.getElementById(`nav-${panelId}`).classList.add('active');
+        }
+
+        // Modal System
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+        // Data Management (Simulated)
+        const members = [
+            { name: "Carlos Rodriguez", id: "PM-821", strain: "Purple Kush", qty: "4.5g", status: "Verified" },
+            { name: "Sarah Jenkins", id: "PM-243", strain: "Lemon Haze", qty: "2.0g", status: "Verified" },
+            { name: "Miguel Angel", id: "PM-901", strain: "Blue Dream", qty: "1.5g", status: "Pending ID" }
+        ];
+
+        const strains = [
+            { name: "Purple Kush", type: "Indica", stock: "240g", points: "1200" },
+            { name: "Lemon Haze", type: "Sativa", stock: "150g", points: "1100" },
+            { name: "Gorilla Glue", type: "Hybrid", stock: "80g", points: "1400" }
+        ];
+
+        const deliveries = [
+            { id: "DEL-9021", origin: "Local Partner", eta: "14:30 Today", status: "In Transit" },
+            { id: "DEL-8842", origin: "Alicante Hub", eta: "Morning Tomorrow", status: "Pending" }
+        ];
+
+        const news = [
+            { id: 1, title: "Terpene Workshop", content: "Exploring flavor profiles next week.", date: "Today" },
+            { id: 2, title: "New Lounge TV", content: "Upgraded to 85' 4K for match days.", date: "Yesterday" }
+        ];
+
+        function renderActivity() {
+            const body = document.getElementById('activity-table-body');
+            if (body) {
+                body.innerHTML = members.map(m => `
+                    <tr>
+                        <td>${m.name}</td>
+                        <td>${m.id}</td>
+                        <td>${m.strain}</td>
+                        <td>${m.qty}</td>
+                        <td><span class="badge ${m.status === 'Verified' ? 'success' : 'warning'}">${m.status}</span></td>
+                        <td><button class="table-action-btn" onclick="memberAction('${m.id}')"><i data-lucide="edit-2"></i></button></td>
+                    </tr>
+                `).join('');
+            }
+            lucide.createIcons();
+        }
+
+        function renderMembersList() {
+            const body = document.getElementById('member-list-body');
+            if (body) {
+                body.innerHTML = members.map(m => `
+                    <tr>
+                        <td>${m.name}</td>
+                        <td>Standard</td>
+                        <td>2024-03-01</td>
+                        <td><span class="badge success">Active</span></td>
+                        <td><button class="table-action-btn" onclick="alert('Viewing profile...')"><i data-lucide="eye"></i></button></td>
+                    </tr>
+                `).join('');
+            }
+            lucide.createIcons();
+        }
+
+        function renderNewsAdmin() {
+            const list = document.getElementById('news-admin-list');
+            if (list) {
+                list.innerHTML = news.map(n => `
+                    <div class="news-item">
+                        <div class="news-date">${n.date}</div>
+                        <div class="news-desc">
+                            <h4>${n.title}</h4>
+                            <p>${n.content}</p>
+                        </div>
+                        <button class="table-action-btn" onclick="alert('Deleting news...')"><i data-lucide="trash-2"></i></button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function filterTable(input, bodyId) {
+            const filter = input.value.toLowerCase();
+            const rows = document.getElementById(bodyId).getElementsByTagName('tr');
+            for (let i = 0; i < rows.length; i++) {
+                const text = rows[i].textContent.toLowerCase();
+                rows[i].style.display = text.includes(filter) ? "" : "none";
+            }
+        }
+
+        function renderStrains() {
+            const grid = document.getElementById('inventory-grid');
+            if (grid) {
+                grid.innerHTML = strains.map(s => `
+                    <div class="about-card" style="padding: 30px;">
+                        <h3 style="margin-bottom: 5px;">${s.name}</h3>
+                        <span class="section-badge" style="font-size: 0.7rem;">${s.type}</span>
+                        <div style="margin-top: 20px; display: flex; justify-content: space-between;">
+                            <span>Stock: <strong>${s.stock}</strong></span>
+                            <span>Points: <strong>${s.points}</strong></span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function renderDeliveries() {
+            const body = document.getElementById('delivery-table-body');
+            if (body) {
+                body.innerHTML = deliveries.map(d => `
+                    <tr>
+                        <td>${d.id}</td>
+                        <td>${d.origin}</td>
+                        <td>${d.eta}</td>
+                        <td><span class="badge ${d.status === 'In Transit' ? 'warning' : 'info'}">${d.status}</span></td>
+                        <td><button class="table-action-btn" onclick="alert('Updating delivery...')"><i data-lucide="refresh-cw"></i></button></td>
+                    </tr>
+                `).join('');
+            }
+            lucide.createIcons();
+        }
+
+        function exportData() {
+            alert('Exporting data as CSV...');
+        }
+
+        function memberAction(id) {
+            alert(`Managing Member: ${id}`);
+        }
+
+        function handleForm(e, type) {
+            e.preventDefault();
+            alert(`${type.charAt(0).toUpperCase() + type.slice(1)} handled successfully! (Simulated)`);
+            closeModal(`${type}-modal`);
+        }
+
+        // Initialize all panels
+        renderActivity();
+        renderMembersList();
+        renderStrains();
+        renderDeliveries();
+        renderNewsAdmin();
+    </script>
+</body>
+</html>
